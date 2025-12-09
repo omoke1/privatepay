@@ -1,0 +1,12 @@
+[package]
+name = "encrypted-ixs"
+version = "0.1.0"
+description = "Encrypted instructions for Private Pay - MPC circuits for payments, swaps, and dark pool"
+edition = "2021"
+
+[lib]
+crate-type = ["cdylib", "lib"]
+
+[dependencies]
+arcis-imports = "0.5.1"
+

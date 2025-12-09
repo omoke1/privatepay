@@ -11,6 +11,10 @@ import TransactionsPage from "./pages/TransactionsPage.jsx";
 import MainBalancePage from "./pages/MainBalancePage.jsx";
 import PrivateBalancePage from "./pages/PrivateBalancePage.jsx";
 import SendPage from "./pages/SendPage.jsx";
+// Arcium Private DeFi Pages
+import ArciumDashboard from "./pages/ArciumDashboard.jsx";
+import PrivateSwapPage from "./pages/PrivateSwapPage.jsx";
+import DarkPoolPage from "./pages/DarkPoolPage.jsx";
 
 const EXCLUDED_SUBDOMAINS = [
   "www",
@@ -96,6 +100,23 @@ export const router = createBrowserRouter([
       {
         path: "/transfer",
         element: <TransferPage />,
+      },
+      // Arcium Private DeFi Routes
+      {
+        path: "/arcium",
+        element: <ArciumDashboard />,
+      },
+      {
+        path: "/arcium/swap",
+        element: <PrivateSwapPage />,
+      },
+      {
+        path: "/arcium/darkpool",
+        element: <DarkPoolPage />,
+      },
+      {
+        path: "/arcium/payments",
+        element: <ArciumDashboard />, // Will add dedicated page later
       },
     ],
   },

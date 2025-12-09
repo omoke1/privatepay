@@ -1,0 +1,12 @@
+[mxe]
+name = "private_pay"
+cluster_offset = 0
+
+[network]
+rpc_url = "https://api.devnet.solana.com"
+environment = "devnet"
+
+[build]
+encrypted_ixs_path = "encrypted-ixs"
+programs_path = "programs"
+

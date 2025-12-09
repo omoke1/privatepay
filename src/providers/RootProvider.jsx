@@ -3,6 +3,7 @@ import DynamicProvider from "./DynamicProvider.jsx";
 import AuthProvider from "./AuthProvider.jsx";
 import Web3Provider from "./Web3Provider.jsx";
 import AptosProvider from "./AptosProvider.jsx";
+import SolanaProvider from "./SolanaProvider.jsx";
 import PhotonProvider from "./PhotonProvider.jsx";
 import PhotonErrorBoundary from "../components/shared/PhotonErrorBoundary.jsx";
 import { SWRConfig } from "swr";
@@ -19,25 +20,27 @@ export default function RootProvider({ children }) {
       }}
     >
       <NextUIProvider>
-        <AptosProvider isTestnet={isTestnet}>
-          <DynamicProvider>
-            <Web3Provider>
-              <AuthProvider>
-                <UserProvider>
-                  <PhotonErrorBoundary
-                    title="Photon Integration Error"
-                    message="The Photon rewards system encountered an error. Don't worry, the rest of the app is working fine!"
-                    showReset={true}
-                  >
-                    <PhotonProvider>
-                      {children}
-                    </PhotonProvider>
-                  </PhotonErrorBoundary>
-                </UserProvider>
-              </AuthProvider>
-            </Web3Provider>
-          </DynamicProvider>
-        </AptosProvider>
+        <SolanaProvider>
+          <AptosProvider isTestnet={isTestnet}>
+            <DynamicProvider>
+              <Web3Provider>
+                <AuthProvider>
+                  <UserProvider>
+                    <PhotonErrorBoundary
+                      title="Photon Integration Error"
+                      message="The Photon rewards system encountered an error. Don't worry, the rest of the app is working fine!"
+                      showReset={true}
+                    >
+                      <PhotonProvider>
+                        {children}
+                      </PhotonProvider>
+                    </PhotonErrorBoundary>
+                  </UserProvider>
+                </AuthProvider>
+              </Web3Provider>
+            </DynamicProvider>
+          </AptosProvider>
+        </SolanaProvider>
       </NextUIProvider>
     </SWRConfig>
   );
