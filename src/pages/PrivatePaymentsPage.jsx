@@ -4,8 +4,8 @@ import { useWallet } from "@solana/wallet-adapter-react";
 import toast from "react-hot-toast";
 import * as anchor from "@coral-xyz/anchor";
 import { useNavigate } from "react-router-dom";
-import { ARCIUM_PROGRAM_ID, PRIVATE_PAY_PROGRAM_ID } from "../lib/arcium/constants.js";
-import { useArciumClient, getPrivatePayProgram } from "../lib/arcium/index.js";
+import { ARCIUM_PROGRAM_ID, PRIVATE_PAY_PROGRAM_ID } from "@/lib/arcium/constants.js";
+import { useArciumClient, getPrivatePayProgram } from "@/lib/arcium/index.js";
 import {
   getArciumEnvSafe,
   getClockAccAddressSafe,
