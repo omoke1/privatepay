@@ -15,22 +15,9 @@ import EnvDebug from "../components/debug/EnvDebug.jsx";
 
 // Component to safely use Dynamic context
 function DynamicWidgetWrapper() {
-  try {
-    const { isAuthenticated } = useDynamicContext();
-    console.log("[DynamicWidgetWrapper] Context available, isAuthenticated:", isAuthenticated);
-    return <DynamicEmbeddedWidget background="with-border" />;
-  } catch (error) {
-    console.error("[DynamicWidgetWrapper] Error accessing Dynamic context:", error);
-    return (
-      <div className="p-4 bg-red-50 border border-red-200 rounded-lg text-center">
-        <p className="text-red-600 font-semibold">Dynamic context not available</p>
-        <p className="text-red-500 text-sm mt-2">Error: {error.message}</p>
-        <p className="text-gray-500 text-xs mt-2">
-          Make sure DynamicProvider is wrapping this component
-        </p>
-      </div>
-    );
-  }
+  // Just render the widget - it doesn't need useDynamicContext
+  // The widget will work as long as DynamicContextProvider is in the tree
+  return <DynamicEmbeddedWidget background="with-border" />;
 }
 
 export default function AuthLayout() {
