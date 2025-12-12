@@ -13,6 +13,26 @@ import AsciiFlame from "../components/shared/AsciiFlame.jsx";
 import EngowlWatermark from "../components/shared/EngowlWatermark.jsx";
 import EnvDebug from "../components/debug/EnvDebug.jsx";
 
+// Component to safely use Dynamic context
+function DynamicWidgetWrapper() {
+  try {
+    const { isAuthenticated } = useDynamicContext();
+    console.log("[DynamicWidgetWrapper] Context available, isAuthenticated:", isAuthenticated);
+    return <DynamicEmbeddedWidget background="with-border" />;
+  } catch (error) {
+    console.error("[DynamicWidgetWrapper] Error accessing Dynamic context:", error);
+    return (
+      <div className="p-4 bg-red-50 border border-red-200 rounded-lg text-center">
+        <p className="text-red-600 font-semibold">Dynamic context not available</p>
+        <p className="text-red-500 text-sm mt-2">Error: {error.message}</p>
+        <p className="text-gray-500 text-xs mt-2">
+          Make sure DynamicProvider is wrapping this component
+        </p>
+      </div>
+    );
+  }
+}
+
 export default function AuthLayout() {
   const { isSignedIn } = useSession();
   const loaderData = useLoaderData();
@@ -72,21 +92,48 @@ export default function AuthLayout() {
           </div>
 
           {/* Wrap DynamicEmbeddedWidget in error boundary */}
-          <div id="dynamic-widget-container" style={{ minHeight: '400px', position: 'relative' }}>
-            {(() => {
-              try {
-                return <DynamicEmbeddedWidget background="with-border" />;
-              } catch (error) {
-                console.error("[AuthLayout] Error rendering DynamicEmbeddedWidget:", error);
-                return (
-                  <div className="p-4 bg-red-50 border border-red-200 rounded-lg text-center">
-                    <p className="text-red-600 font-semibold">Failed to load authentication widget</p>
-                    <p className="text-red-500 text-sm mt-2">Error: {error.message}</p>
-                    <p className="text-gray-500 text-xs mt-2">Check console for details</p>
+          <div 
+            id="dynamic-widget-container" 
+            style={{ 
+              minHeight: '400px', 
+              position: 'relative',
+              border: '2px dashed #e5e7eb',
+              borderRadius: '8px',
+              padding: '20px',
+              backgroundColor: '#f9fafb'
+            }}
+          >
+            {/* Debug info */}
+            {!hasDynamic && (
+              <div className="mb-4 p-3 bg-yellow-50 border border-yellow-200 rounded text-center">
+                <p className="text-yellow-800 text-sm font-semibold">⚠️ Dynamic.xyz not configured</p>
+                <p className="text-yellow-600 text-xs mt-1">
+                  VITE_DYNAMIC_ENV_ID is missing. Widget will not render.
+                </p>
+              </div>
+            )}
+            
+            {/* Widget container with loading state */}
+            <div id="dynamic-widget-wrapper">
+              {hasDynamic ? (
+                <>
+                  <div className="text-center text-gray-500 text-xs mb-2">
+                    Loading authentication widget...
                   </div>
-                );
-              }
-            })()}
+                  <DynamicWidgetWrapper />
+                </>
+              ) : (
+                <div className="p-6 bg-white rounded-lg border border-gray-200 text-center">
+                  <p className="text-gray-700 font-semibold mb-2">Authentication Required</p>
+                  <p className="text-gray-500 text-sm">
+                    Please configure VITE_DYNAMIC_ENV_ID in your Vercel environment variables
+                  </p>
+                  <p className="text-gray-400 text-xs mt-2">
+                    Check the browser console for detailed debug information
+                  </p>
+                </div>
+              )}
+            </div>
           </div>
 
           <div className="flex flex-col items-center mt-2">
