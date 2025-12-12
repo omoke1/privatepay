@@ -79,13 +79,17 @@ export default defineConfig(({ mode }) => {
               '@solana/wallet-adapter-react-ui',
               '@solana/wallet-adapter-wallets',
             ],
+            'ethers-vendor': [
+              'ethers',
+              '@oasisprotocol/sapphire-ethers-v6',
+            ],
+            'viem-vendor': [
+              'viem',
+            ],
             'blockchain-vendor': [
               '@aptos-labs/ts-sdk',
               '@solana/web3.js',
               '@coral-xyz/anchor',
-              'ethers',
-              'viem',
-              '@oasisprotocol/sapphire-ethers-v6',
             ],
             'arcium-vendor': ['@arcium-hq/client'],
             'crypto-vendor': [
