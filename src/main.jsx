@@ -94,27 +94,40 @@ try {
   console.error('[Init] Error cleaning localStorage:', error);
 }
 
+console.log("[Main] Starting app initialization...");
+console.log("[Main] Environment variables:", {
+  VITE_DYNAMIC_ENV_ID: import.meta.env.VITE_DYNAMIC_ENV_ID ? "Set" : "Not set",
+  VITE_WEBSITE_HOST: import.meta.env.VITE_WEBSITE_HOST || "Not set",
+  VITE_SUPABASE_URL: import.meta.env.VITE_SUPABASE_URL ? "Set" : "Not set",
+  VITE_APP_ENVIRONMENT: import.meta.env.VITE_APP_ENVIRONMENT || "Not set",
+});
+
 const rootElement = document.getElementById("root");
 if (!rootElement) {
-  console.error("Root element not found!");
+  console.error("[Main] Root element not found!");
   document.body.innerHTML = '<div style="padding: 20px; text-align: center;"><h1>Error: Root element not found</h1><p>Please check the HTML structure.</p></div>';
 } else {
+  console.log("[Main] Root element found, creating React root...");
   try {
-    createRoot(rootElement).render(
+    const root = createRoot(rootElement);
+    console.log("[Main] React root created, rendering app...");
+    root.render(
       <StrictMode>
         <ErrorBoundary>
           <App />
         </ErrorBoundary>
       </StrictMode>
     );
-    console.log("App rendered successfully");
+    console.log("[Main] App rendered successfully");
   } catch (error) {
-    console.error("Failed to render app:", error);
+    console.error("[Main] Failed to render app:", error);
+    console.error("[Main] Error stack:", error.stack);
     rootElement.innerHTML = `
-      <div style="padding: 20px; text-align: center;">
-        <h1>Failed to Load App</h1>
-        <p style="color: #666;">${error.message}</p>
-        <button onclick="window.location.reload()" style="margin-top: 20px; padding: 10px 20px; background: #0070f3; color: white; border: none; border-radius: 5px; cursor: pointer;">
+      <div style="padding: 20px; text-align: center; font-family: system-ui;">
+        <h1 style="color: #dc2626; margin-bottom: 10px;">Failed to Load App</h1>
+        <p style="color: #666; margin-bottom: 20px;">${error.message}</p>
+        <pre style="background: #f5f5f5; padding: 15px; border-radius: 5px; text-align: left; overflow: auto; max-width: 600px; margin: 0 auto 20px; font-size: 12px;">${error.stack || String(error)}</pre>
+        <button onclick="window.location.reload()" style="padding: 10px 20px; background: #0070f3; color: white; border: none; border-radius: 5px; cursor: pointer;">
           Reload Page
         </button>
       </div>
