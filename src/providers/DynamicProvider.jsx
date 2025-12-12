@@ -13,31 +13,37 @@ export default function DynamicProvider({ children }) {
   const dynamicEnvId = import.meta.env.VITE_DYNAMIC_ENV_ID;
 
   // If Dynamic environment ID is not set or is placeholder, skip Dynamic provider
-  if (!dynamicEnvId || dynamicEnvId === "your_dynamic_environment_id") {
-    console.warn("Dynamic.xyz environment ID not configured. Skipping Dynamic provider.");
+  if (!dynamicEnvId || dynamicEnvId === "your_dynamic_environment_id" || dynamicEnvId === "") {
+    console.log("[DynamicProvider] Dynamic.xyz not configured. Skipping Dynamic provider - app will work without authentication.");
     return <>{children}</>;
   }
 
-  return (
-    <DynamicContextProvider
-      settings={{
-        environmentId: dynamicEnvId,
-        walletConnectors: [EthereumWalletConnectors],
-        overrides: {
-          evmNetworks: (networks) => mergeNetworks(customEvmNetworks, networks),
-        },
-        events: {
-          onLogout: (args) => {
-            Cookies.remove("access_token");
-            localStorage.removeItem("auth_signer");
-            setSignedIn(false);
-            window.location.reload();
-            console.log("onLogout was called", args);
+  try {
+    return (
+      <DynamicContextProvider
+        settings={{
+          environmentId: dynamicEnvId,
+          walletConnectors: [EthereumWalletConnectors],
+          overrides: {
+            evmNetworks: (networks) => mergeNetworks(customEvmNetworks, networks),
           },
-        },
-      }}
-    >
-      {children}
-    </DynamicContextProvider>
-  );
+          events: {
+            onLogout: (args) => {
+              Cookies.remove("access_token");
+              localStorage.removeItem("auth_signer");
+              setSignedIn(false);
+              window.location.reload();
+              console.log("onLogout was called", args);
+            },
+          },
+        }}
+      >
+        {children}
+      </DynamicContextProvider>
+    );
+  } catch (error) {
+    console.error("[DynamicProvider] Error initializing Dynamic Labs:", error);
+    console.log("[DynamicProvider] Falling back to app without Dynamic authentication.");
+    return <>{children}</>;
+  }
 }
