@@ -66,6 +66,43 @@ export default defineConfig(({ mode }) => {
       },
       rollupOptions: {
         plugins: [],
+        output: {
+          manualChunks: {
+            // Vendor chunks - split large dependencies
+            'react-vendor': ['react', 'react-dom', 'react-router-dom'],
+            'ui-vendor': ['@nextui-org/react', 'framer-motion', 'lucide-react'],
+            'wallet-vendor': [
+              '@dynamic-labs/sdk-react-core',
+              '@dynamic-labs/ethereum',
+              '@dynamic-labs/ethers-v6',
+              '@solana/wallet-adapter-react',
+              '@solana/wallet-adapter-react-ui',
+              '@solana/wallet-adapter-wallets',
+            ],
+            'blockchain-vendor': [
+              '@aptos-labs/ts-sdk',
+              '@solana/web3.js',
+              '@coral-xyz/anchor',
+              'ethers',
+              'viem',
+              '@oasisprotocol/sapphire-ethers-v6',
+            ],
+            'arcium-vendor': ['@arcium-hq/client'],
+            'crypto-vendor': [
+              '@noble/secp256k1',
+              '@noble/hashes',
+              'bs58',
+              'bn.js',
+            ],
+            'utils-vendor': [
+              'axios',
+              '@supabase/supabase-js',
+              'swr',
+              'date-fns',
+              'dayjs',
+            ],
+          },
+        },
       },
     },
   };

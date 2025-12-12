@@ -31,3 +31,4 @@ solana/criterion-*/
 *.sln
 *.sw?
 .vercel
+.cursor/

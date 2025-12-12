@@ -317,7 +317,7 @@ export default function PrivatePaymentsPage() {
                 <div className="text-xs text-gray-500 bg-gray-50 p-3 rounded-lg space-y-1">
                   <div className="font-medium mb-2">Debug Info:</div>
                   <div>Connected: {connected ? "✓" : "✗"}</div>
-                  <div>Public Key: {publicKey?.toBase58()?.slice(0, 8) + "..." ?? "N/A"}</div>
+                  <div>Public Key: {publicKey ? (publicKey.toBase58().slice(0, 8) + "...") : "N/A"}</div>
                   <div>Arcium Client: {arciumClient ? "✓" : "✗"}</div>
                   <div>Program: {program ? "✓" : "✗"}</div>
                   <div className="mt-2 pt-2 border-t border-gray-200">
