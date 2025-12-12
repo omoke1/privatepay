@@ -61,7 +61,8 @@ export const router = createBrowserRouter([
     element: <AuthLayout />,
     loader: () => {
       const host = window.location.hostname;
-      const suffix = `.${import.meta.env.VITE_WEBSITE_HOST}`;
+      const websiteHost = import.meta.env.VITE_WEBSITE_HOST || 'privatepay.me';
+      const suffix = `.${websiteHost}`;
 
       if (host.endsWith(suffix)) {
         const subdomain = host.slice(0, -suffix.length);
